@@ -1,0 +1,75 @@
+{
+  "realm": "test",
+  "enabled": true,
+  "sslRequired": "external",
+  "roles": {
+    "realm": [
+      {
+        "name": "USER",
+        "description": "User role"
+      },
+      {
+        "name": "ADMIN",
+        "description": "Admin role"
+      }
+    ]
+  },
+  "users": [
+    {
+      "username": "user1",
+      "email": "user1@danton.pro",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "user1_password"
+        }
+      ],
+      "realmRoles": ["USER"]
+    },
+    {
+      "username": "admin1",
+      "email": "admin1@danton.pro",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin1_password"
+        }
+      ],
+      "realmRoles": ["ADMIN", "USER"]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "backend_client_id",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "backend_client_secret",
+      "redirectUris": ["http://localhost:8081/*"],
+      "bearerOnly": false,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true
+    }
+  ],
+  "authenticationFlows": [
+    {
+      "alias": "direct grant X-Konneqt-Token",
+      "description": "",
+      "providerId": "basic-flow",
+      "topLevel": true,
+      "builtIn": false,
+      "authenticationExecutions": [
+        {
+          "authenticator": "x-konneqt-token-authenticator",
+          "authenticatorFlow": false,
+          "requirement": "REQUIRED",
+          "priority": 0,
+          "autheticatorFlow": false,
+          "userSetupAllowed": false
+        }
+      ]
+    }
+  ],
+  "directGrantFlow": "direct grant X-Konneqt-Token"
+}

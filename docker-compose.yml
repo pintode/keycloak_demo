@@ -1,0 +1,66 @@
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: keycloak_db
+      POSTGRES_USER: keycloak_db_user
+      POSTGRES_PASSWORD: keycloak_db_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  keycloak:
+    build:
+      context: ./keycloak
+      dockerfile: Dockerfile
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak_db
+      KC_DB_USERNAME: keycloak_db_user
+      KC_DB_PASSWORD: keycloak_db_password
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin_password
+    volumes:
+      - ./keycloak/realm-export.json:/opt/keycloak/data/import/realm.json
+    command: ["start-dev", "--import-realm"]
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "grep -q ':1F90 ' /proc/1/net/tcp6"] # Check if port 8080 (0x1F90) is listening
+      interval: 5s
+      timeout: 10s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      KEYCLOAK_URL: http://keycloak:8080
+      KEYCLOAK_REALM: test
+      KEYCLOAK_CLIENT_ID: backend_client_id
+      KEYCLOAK_CLIENT_SECRET: backend_client_secret
+    ports:
+      - "8081:8080"
+    depends_on:
+      postgres:
+        condition: service_started
+      keycloak:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    #volumes:
+    #  - ./frontend:/app
+    #  - /app/node_modules
+
+volumes:
+  postgres_data:

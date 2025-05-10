@@ -66,7 +66,7 @@ docker compose down
 - Frontend: [http://localhost:3000](http://localhost:3000)
 - Backend: [http://localhost:8081/api](http://localhost:8081/api)
 - Keycloak: [http://localhost:8080](http://localhost:8080) (user: admin, password: admin_password)
-- PostgreSQL: [jdbc:postgresql://postgres:5432/keycloak_db?user=keycloak_db_user&password=keycloak_db_password](jdbc:postgresql://postgres:5432/keycloak_db?user=keycloak_db_user&password=keycloak_db_password)
+- PostgreSQL: [jdbc:postgresql://localhost:5432/keycloak_db?user=keycloak_db_user&password=keycloak_db_password](jdbc:postgresql://localhost:5432/keycloak_db?user=keycloak_db_user&password=keycloak_db_password)
 
 Note: Keycloak and PostgreSQL ports were exposed for demonstration purposes only.
 

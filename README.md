@@ -1,5 +1,5 @@
 # keycloak_demo
-SPI de autenticação no Keycloak que aceite autenticação via token personalizado enviado no header X-Konneqt-Token.
+Authentication SPI in Keycloak that accepts authentication via a custom token sent in the X-Konneqt-Token header.
 
 ## Goal
 

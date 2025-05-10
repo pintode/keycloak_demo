@@ -41,10 +41,10 @@ git clone https://github.com/pintode/keycloak_demo
 # Access keycloak_demo directory
 cd keycloak_demo
 
-# Generate build/libs/backend-1.0.0.jar
+# Generate ./backend/build/libs/backend-1.0.0.jar
 gradle -p ./backend build
 
-# Generate build/libs/keycloak-1.0.0.jar
+# Generate ./keycloak/build/libs/keycloak-1.0.0.jar
 gradle -p ./keycloak build
 
 # Build all images
